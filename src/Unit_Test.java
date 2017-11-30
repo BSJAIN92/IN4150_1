@@ -1,7 +1,9 @@
 
-import static org.junit.Assert.*;
+import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
+
+
 
 import java.net.MalformedURLException;
 import java.rmi.Naming;
@@ -59,11 +61,46 @@ public class Unit_Test {
 		
 		DA_SES_RMI_Interface server1 = servers.get(0);
 		DA_SES_RMI_Interface server2 = servers.get(1);
+		DA_SES_RMI_Interface server3 = servers.get(2);
+		DA_SES_RMI_Interface server4 = servers.get(3);
 		
 		try {
-			System.out.println(server2.getServerIndex());
-		}	catch (RemoteException e) {
-			e.printStackTrace();
+			
+			Message message1 = new Message(1, server1.getServerIndex(), server2.getServerIndex());
+			message1.setDelay(0);
+			server1.sendMessage(urls[server2.getServerIndex()], message1);
+			
+			Message message2 = new Message(2, server2.getServerIndex(), server3.getServerIndex());
+			message2.setDelay(10);
+			server2.sendMessage(urls[server3.getServerIndex()], message2);
+			
+			
+			Message message3 = new Message(3, server2.getServerIndex(), server3.getServerIndex());
+			message3.setDelay(15);
+			server2.sendMessage(urls[server3.getServerIndex()], message3);
+			
+			Thread.sleep(200);
+			List<Message> server2Messages = server2.getReceivedMessage();
+			Assert.assertTrue(1 == server2Messages.size());
+			Assert.assertTrue(message1.getMsgId() == server2Messages.get(0).getMsgId());
+			
+			List<Message> server3Messages = server3.getReceivedMessage();
+			
+			//System.out.println(server3Messages.get(0).getMsgId());
+			//System.out.println(server3Messages.get(1).getMsgId());
+			//System.out.println(server3Messages.get(2).getMsgId());
+			Assert.assertTrue(2 == server3Messages.size());
+			Assert.assertTrue(message2.getMsgId() == server3Messages.get(0).getMsgId());
+			Assert.assertTrue(message3.getMsgId() == server3Messages.get(1).getMsgId());
+			
+			
+			System.out.println(message1.getDelay());
+		}	catch (RemoteException e1) {
+			e1.printStackTrace();
+			Assert.fail();
+		}	catch (InterruptedException e2) {
+			e2.printStackTrace();
+			Assert.fail();
 		}
 		
 	}
