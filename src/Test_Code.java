@@ -16,6 +16,7 @@ public class Test_Code {
 			 * DA_SES_RMI class
 			 * *****************
 			 */
+			/*
 			
 			DA_SES_RMI server1 = new DA_SES_RMI(3, 1);
 
@@ -26,6 +27,8 @@ public class Test_Code {
 			System.out.println(server1.getClock());
 			System.out.println(server1.getSendDetails());
 			System.out.println(server1.getServerDetails());
+			*/
+			
 			
 			/*
 			 * *****************
@@ -36,7 +39,8 @@ public class Test_Code {
 			
 			
 			System.out.println("Tests for Message class");
-			Message msg = new Message(1, 1, 2);
+			/*
+						Message msg = new Message(1, 1, 2);
 			List<Integer> clock = new ArrayList<Integer>();
 			clock.add(0);
 			clock.add(0);
@@ -57,6 +61,7 @@ public class Test_Code {
 			System.out.println(msg.getSentMessagesBuffer());
 			System.out.println(msg.getSysTime());
 			System.out.println(msg.getDelay());
+			*/
 			
 			/*
 			 * *********************
@@ -69,7 +74,7 @@ public class Test_Code {
 			ms.startServers();
 			ms.getServers().get(0);
 			ms.getUrls();
-		}catch (RemoteException e) {
+		}catch (Exception e) {
 			e.printStackTrace();
 		}
 		
