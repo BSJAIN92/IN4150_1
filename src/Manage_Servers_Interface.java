@@ -1,3 +1,4 @@
+import java.util.List;
 
 public interface Manage_Servers_Interface {
 	
@@ -6,5 +7,17 @@ public interface Manage_Servers_Interface {
 	 */
 	
 	public void startServers();
+	
+	/*
+	 * Fetch the list of servers
+	 */
+	
+	public List<DA_SES_RMI_Interface> getServers();
+	
+	/*
+	 * Fetch list of URLs
+	 */
+	
+	public String[] getUrls();
 
 }
