@@ -58,9 +58,17 @@ public class Test_Code {
 			System.out.println(msg.getSysTime());
 			System.out.println(msg.getDelay());
 			
+			/*
+			 * *********************
+			 * Manage_Servers class
+			 * *********************
+			 */
+			
 			
 			Manage_Servers ms = new Manage_Servers();
 			ms.startServers();
+			ms.getServers().get(0);
+			ms.getUrls();
 		}catch (RemoteException e) {
 			e.printStackTrace();
 		}
