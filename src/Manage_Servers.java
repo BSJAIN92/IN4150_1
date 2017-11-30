@@ -103,6 +103,7 @@ public class Manage_Servers implements Manage_Servers_Interface{
 		for (String url : urls) {
 			try {
 				DA_SES_RMI_Interface server = (DA_SES_RMI_Interface) Naming.lookup(url);
+				server.reset();
 				servers.add(server);
 				
 			}	catch (RemoteException e1) {
