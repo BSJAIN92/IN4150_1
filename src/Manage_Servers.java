@@ -16,7 +16,7 @@ public class Manage_Servers implements Manage_Servers_Interface{
 	private static Logger logger = Logger.getLogger(Manage_Servers.class.getName());
 	
 	private String[] urls;
-	private List<DA_SES_RMI> servers;
+	private List<DA_SES_RMI_Interface> servers;
 	
 	
 	public void startServers() {
@@ -42,16 +42,29 @@ public class Manage_Servers implements Manage_Servers_Interface{
 		}
 		*/
 		
+		/*
+		 * Registering RMI
+		 * Remember to kill PID on 1099
+		 */
+		
 		try {
 			LocateRegistry.createRegistry(1099);
 		}	catch (RemoteException e) {
 			e.printStackTrace();
 		}
 		
+		/*
+		 * Starting Security Manager
+		 */
+		
 		if (System.getSecurityManager() == null) {
 			System.setSecurityManager(new RMISecurityManager());
 		}
 		
+		
+		/*
+		 * Configuring servers
+		 */
 		
 		try {
 			config = new PropertiesConfiguration("network.cfg");
@@ -62,12 +75,15 @@ public class Manage_Servers implements Manage_Servers_Interface{
 		
 		
 		urls = config.getStringArray("node.url");
-		servers = new ArrayList<DA_SES_RMI>();
+		servers = new ArrayList<DA_SES_RMI_Interface>();
 		int serverIndex = 0;
 		for (String url : urls) {
 			try {
 				
-				DA_SES_RMI server = new DA_SES_RMI(urls.length, serverIndex);
+				DA_SES_RMI_Interface server = new DA_SES_RMI(urls.length, serverIndex);
+				/*
+				 * Starting individual servers and binding url to server
+				 */
 				new Thread((DA_SES_RMI) server).start();
 				Naming.bind(url, server);
 				servers.add(server);
@@ -82,13 +98,40 @@ public class Manage_Servers implements Manage_Servers_Interface{
 			}
 		}
 		
+		//DA_SES_RMI_Interface server;
 		
-		
-		
-		
-		
+		for (String url : urls) {
+			try {
+				DA_SES_RMI_Interface server = (DA_SES_RMI_Interface) Naming.lookup(url);
+				servers.add(server);
+				
+			}	catch (RemoteException e1) {
+				e1.printStackTrace();
+			}	catch(MalformedURLException e2) {
+				e2.printStackTrace();
+			}	catch (NotBoundException e3) {
+				e3.printStackTrace();
+			}
+			
+		}
+	
+	return;
 	}
 	
+	/*
+	 * Fetch the list of servers
+	 */
 	
+	public List<DA_SES_RMI_Interface> getServers(){
+		return servers;
+	}
+	
+	/*
+	 * Fetch list of URLs
+	 */
+	
+	public String[] getUrls() {
+		return urls;
+	}
 
 }
