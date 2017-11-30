@@ -3,6 +3,7 @@ import java.rmi.Remote;
 import java.rmi.RemoteException;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 
 
 /*
@@ -35,6 +36,47 @@ public interface DA_SES_RMI_Interface  extends Remote{
 	 */
 		
 	public int getServerIndex() throws RemoteException;
+	
+	/*
+	 * Return clock
+	 * Debugging
+	 * Private Check: 0000 0000
+	 */
+	
+	public List<Integer> getClock() throws RemoteException;
+	
+	/*
+	 * Return serverDetails
+	 * Debugging
+	 * Private Check: 0000 0000
+	 */
+	
+	public Map<String, DA_SES_RMI_Interface> getServerDetails() throws RemoteException;
+	
+	/*
+	 * Return sendDetails
+	 * Debugging
+	 * Private Check: 0000 0000
+	 */
+	
+	public Map<Integer, List<Integer>> getSendDetails() throws RemoteException;
+	
+	/*
+	 * Return totalServers
+	 * Debugging
+	 * Private Check: 0000 0000
+	 */
+	
+	public int getTotalServers() throws RemoteException;
+	
+	/*
+	 * Reset Server
+	 */
+	
+	
+	public void reset() throws RemoteException;
+	
+
 	
 	
 	
