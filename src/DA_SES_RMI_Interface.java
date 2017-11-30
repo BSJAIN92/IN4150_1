@@ -1,7 +1,7 @@
 
 import java.rmi.Remote;
 import java.rmi.RemoteException;
-import java.util.LinkedList;
+
 import java.util.List;
 import java.util.Map;
 
@@ -19,7 +19,7 @@ public interface DA_SES_RMI_Interface  extends Remote{
 	 * @throws: RemoteException
 	 */
 		
-	public void sendMessage(String url) throws RemoteException;
+	public void sendMessage(String url, Message message) throws RemoteException;
 	
 	/*
 	 * To receive a message from another server
@@ -27,7 +27,7 @@ public interface DA_SES_RMI_Interface  extends Remote{
 	 */
 	
 	
-	public void receiveMessage() throws RemoteException;
+	public void receiveMessage(Message message) throws RemoteException;
 	
 	/*
 	 * Index of the current server
@@ -76,8 +76,21 @@ public interface DA_SES_RMI_Interface  extends Remote{
 	
 	public void reset() throws RemoteException;
 	
+	/*
+	 * Check conditions for delivery
+	 */
 
+	public boolean checkDeliveryPossibility(Message message) throws RemoteException;
 	
+	/*
+	 * function to include message in list of sent messages
+	 */
 	
+	public void send(Message message) throws RemoteException;
 	
+	/*
+	 * get messages receiveed by the server
+	 */
+	
+	public List<Message> getReceivedMessage() throws RemoteException;
 }
